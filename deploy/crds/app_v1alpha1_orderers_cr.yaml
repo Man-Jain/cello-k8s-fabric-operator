@@ -1,0 +1,7 @@
+apiVersion: app.example.com/v1alpha1
+kind: Orderers
+metadata:
+  name: example-orderers
+spec:
+  # Add fields here
+  size: 3
