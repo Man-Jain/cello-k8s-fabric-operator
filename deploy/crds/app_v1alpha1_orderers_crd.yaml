@@ -28,8 +28,114 @@ spec:
         metadata:
           type: object
         spec:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              properties:
+                labels:
+                  properties:
+                    app:
+                      type: string
+                    org:
+                      type: string
+                    role:
+                      type: string
+                  required:
+                  - app
+                  - role
+                  - org
+                  type: object
+                name:
+                  type: string
+              required:
+              - name
+              - labels
+              type: object
+            spec:
+              properties:
+                replicas:
+                  format: int64
+                  type: integer
+                template:
+                  properties:
+                    metadata:
+                      properties:
+                        labels:
+                          properties:
+                            role:
+                              type: string
+                          required:
+                          - role
+                          type: object
+                        name:
+                          type: string
+                      required:
+                      - name
+                      - labels
+                      type: object
+                    spec:
+                      properties:
+                        containers:
+                          properties:
+                            command:
+                              items:
+                                type: string
+                              type: array
+                            image:
+                              type: string
+                            name:
+                              type: string
+                            ports:
+                              items:
+                                properties:
+                                  containerPort:
+                                    format: int64
+                                    type: integer
+                                required:
+                                - containerPort
+                                type: object
+                              type: array
+                          required:
+                          - name
+                          - image
+                          - ports
+                          - command
+                          type: object
+                        restartPolicy:
+                          type: string
+                      required:
+                      - restartPolicy
+                      - containers
+                      type: object
+                  required:
+                  - metadata
+                  - spec
+                  type: object
+              required:
+              - replicas
+              - template
+              type: object
+          required:
+          - apiVersion
+          - kind
+          - metadata
+          - spec
           type: object
         status:
+          properties:
+            orderers:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "operator-sdk generate k8s" to regenerate
+                code after modifying this file Add custom validation using kubebuilder
+                tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html'
+              items:
+                type: string
+              type: array
+          required:
+          - orderers
           type: object
   version: v1alpha1
   versions:

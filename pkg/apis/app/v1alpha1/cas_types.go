@@ -12,14 +12,21 @@ import (
 type CAsSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata   struct {
+	Metadata metadata `json:"metadata"`
+	Spec spec `json:"spec"`
+}
+
+type metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
-			App  string `json:"app"`
-			Role string `json:"role"`
+			App    string `json:"app"`
+			Role   string `json:"role"`
+			PeerID string `json:"peer-id"`
+			Org    string `json:"org"`
 		} `json:"labels"`
-	} `json:"metadata"`
-	Spec struct {
+}
+
+type spec struct {
 		Replicas int `json:"replicas"`
 		Template struct {
 			Metadata struct {
@@ -30,17 +37,18 @@ type CAsSpec struct {
 			} `json:"metadata"`
 			Spec struct {
 				RestartPolicy string `json:"restartPolicy"`
-				Containers    []struct {
+				Containers struct {
 					Name  string `json:"name"`
 					Image string `json:"image"`
-					Ports []struct {
-						ContainerPort int `json:"containerPort"`
-					} `json:"ports"`
+					Ports []ports `json:"ports"`
 					Command []string `json:"command"`
 				} `json:"containers"`
 			} `json:"spec"`
 		} `json:"template"`
-	} `json:"spec"`
+	}
+
+type ports struct {
+	ContainerPort int `json:"containerPort"`
 }
 
 // CAsStatus defines the observed state of CAs
@@ -49,7 +57,7 @@ type CAsStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
-	CAs []string `json:"cas"`
+	CertiAuth []string `json:"certiAuth"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

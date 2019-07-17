@@ -12,7 +12,11 @@ import (
 type PeersSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata   struct {
+	Metadata metadata `json:"metadata"`
+	Spec spec `json:"spec"`
+}
+
+type metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
 			App    string `json:"app"`
@@ -20,8 +24,41 @@ type PeersSpec struct {
 			PeerID string `json:"peer-id"`
 			Org    string `json:"org"`
 		} `json:"labels"`
-	} `json:"metadata"`
-	Spec struct {
+}
+
+type Volumemounts struct {
+	MountPath string `json:"mountPath"`
+	Name      string `json:"name"`
+}
+
+type Envs struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type CPorts struct {
+	ContainerPort int `json:"containerPort"`
+}
+
+type CVolumes struct {
+	Name     string `json:"name"`
+	HostPath struct {
+		Path string `json:"path"`
+	} `json:"hostPath"`
+}
+
+type CContainers struct {
+					Name            string `json:"name"`
+					ImagePullPolicy string `json:"imagePullPolicy"`
+					Image           string `json:"image"`
+					WorkingDir      string `json:"workingDir"`
+					VolumeMounts []Volumemounts `json:"volumeMounts"`
+					Env []Envs `json:"env"`
+					Ports []CPorts `json:"ports"`
+					Command []string `json:"command"`
+				}
+
+type spec struct {
 		Replicas int `json:"replicas"`
 		Template struct {
 			Metadata struct {
@@ -35,34 +72,12 @@ type PeersSpec struct {
 			} `json:"metadata"`
 			Spec struct {
 				RestartPolicy string `json:"restartPolicy"`
-				Containers    []struct {
-					Name            string `json:"name"`
-					ImagePullPolicy string `json:"imagePullPolicy"`
-					Image           string `json:"image"`
-					WorkingDir      string `json:"workingDir"`
-					VolumeMounts    []struct {
-						MountPath string `json:"mountPath"`
-						Name      string `json:"name"`
-					} `json:"volumeMounts"`
-					Env []struct {
-						Name  string `json:"name"`
-						Value string `json:"value"`
-					} `json:"env"`
-					Ports []struct {
-						ContainerPort int `json:"containerPort"`
-					} `json:"ports"`
-					Command []string `json:"command"`
-				} `json:"containers"`
-				Volumes []struct {
-					Name     string `json:"name"`
-					HostPath struct {
-						Path string `json:"path"`
-					} `json:"hostPath"`
-				} `json:"volumes"`
+				Containers CContainers `json:"containers"`
+				Volumes []CVolumes `json:"volumes"`
 			} `json:"spec"`
 		} `json:"template"`
-	} `json:"spec"`
-}
+	}
+
 
 // PeersStatus defines the observed state of Peers
 // +k8s:openapi-gen=true

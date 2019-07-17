@@ -12,14 +12,19 @@ import (
 type OrderersSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata   struct {
+	Metadata  metadata `json:"metadata"`
+	Spec spec `json:"spec"`
+}
+
+type metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
 			App  string `json:"app"`
 			Role string `json:"role"`
 		} `json:"labels"`
-	} `json:"metadata"`
-	Spec struct {
+	}
+
+type spec struct {
 		Replicas int `json:"replicas"`
 		Template struct {
 			Metadata struct {
@@ -30,31 +35,38 @@ type OrderersSpec struct {
 			} `json:"metadata"`
 			Spec struct {
 				RestartPolicy string `json:"restartPolicy"`
-				Containers    []struct {
+				Containers struct {
 					Name         string `json:"name"`
 					Image        string `json:"image"`
-					VolumeMounts []struct {
-						MountPath string `json:"mountPath"`
-						Name      string `json:"name"`
-					} `json:"volumeMounts"`
-					Env []struct {
-						Name  string `json:"name"`
-						Value string `json:"value"`
-					} `json:"env"`
-					Ports []struct {
-						ContainerPort int `json:"containerPort"`
-					} `json:"ports"`
+					VolumeMounts []volumemounts `json:"volumeMounts"`
+					Env []env `json:"env"`
+					Ports []ports `json:"ports"`
 					Command []string `json:"command"`
 				} `json:"containers"`
-				Volumes []struct {
-					Name     string `json:"name"`
-					HostPath struct {
-						Path string `json:"path"`
-					} `json:"hostPath"`
-				} `json:"volumes"`
+				Volumes []volumes `json:"volumes"`
 			} `json:"spec"`
 		} `json:"template"`
-	} `json:"spec"`
+	}
+
+type volumemounts struct {
+	MountPath string `json:"mountPath"`
+	Name      string `json:"name"`
+}
+
+type env struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type ports struct {
+	ContainerPort int `json:"containerPort"`
+}
+
+type volumes struct {
+	Name     string `json:"name"`
+	HostPath struct {
+		Path string `json:"path"`
+	} `json:"hostPath"`
 }
 
 // OrderersStatus defines the observed state of Orderers
