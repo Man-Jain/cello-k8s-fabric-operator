@@ -37,7 +37,7 @@ type spec struct {
 			} `json:"metadata"`
 			Spec struct {
 				RestartPolicy string `json:"restartPolicy"`
-				Containers struct {
+				Containers []struct {
 					Name  string `json:"name"`
 					Image string `json:"image"`
 					Ports []ports `json:"ports"`

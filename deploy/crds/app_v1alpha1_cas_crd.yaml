@@ -79,31 +79,33 @@ spec:
                     spec:
                       properties:
                         containers:
-                          properties:
-                            command:
-                              items:
+                          items:
+                            properties:
+                              command:
+                                items:
+                                  type: string
+                                type: array
+                              image:
                                 type: string
-                              type: array
-                            image:
-                              type: string
-                            name:
-                              type: string
-                            ports:
-                              items:
-                                properties:
-                                  containerPort:
-                                    format: int64
-                                    type: integer
-                                required:
-                                - containerPort
-                                type: object
-                              type: array
-                          required:
-                          - name
-                          - image
-                          - ports
-                          - command
-                          type: object
+                              name:
+                                type: string
+                              ports:
+                                items:
+                                  properties:
+                                    containerPort:
+                                      format: int64
+                                      type: integer
+                                  required:
+                                  - containerPort
+                                  type: object
+                                type: array
+                            required:
+                            - name
+                            - image
+                            - ports
+                            - command
+                            type: object
+                          type: array
                         restartPolicy:
                           type: string
                       required:

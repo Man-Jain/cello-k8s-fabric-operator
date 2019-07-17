@@ -199,7 +199,7 @@ func schema_pkg_apis_app_v1alpha1_OrderersSpec(ref common.ReferenceCallback) com
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"),
+							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"),
 						},
 					},
 				},
@@ -207,7 +207,7 @@ func schema_pkg_apis_app_v1alpha1_OrderersSpec(ref common.ReferenceCallback) com
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"},
+			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"},
 	}
 }
 
@@ -307,7 +307,7 @@ func schema_pkg_apis_app_v1alpha1_PeersSpec(ref common.ReferenceCallback) common
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"),
+							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"),
 						},
 					},
 				},
@@ -315,7 +315,7 @@ func schema_pkg_apis_app_v1alpha1_PeersSpec(ref common.ReferenceCallback) common
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"},
+			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"},
 	}
 }
 

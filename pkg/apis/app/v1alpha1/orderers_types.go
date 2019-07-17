@@ -12,62 +12,46 @@ import (
 type OrderersSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata  metadata `json:"metadata"`
-	Spec spec `json:"spec"`
+	Metadata   metadata `json:"metadata"`
+	Spec specs `json:"spec"`
 }
 
 type metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
-			App  string `json:"app"`
-			Role string `json:"role"`
+			App    string `json:"app"`
+			Role   string `json:"role"`
+			PeerID string `json:"peer-id"`
 		} `json:"labels"`
 	}
 
-type spec struct {
-		Replicas int `json:"replicas"`
-		Template struct {
-			Metadata struct {
-				Name   string `json:"name"`
-				Labels struct {
-					Role string `json:"role"`
-				} `json:"labels"`
-			} `json:"metadata"`
-			Spec struct {
-				RestartPolicy string `json:"restartPolicy"`
-				Containers struct {
-					Name         string `json:"name"`
-					Image        string `json:"image"`
-					VolumeMounts []volumemounts `json:"volumeMounts"`
-					Env []env `json:"env"`
-					Ports []ports `json:"ports"`
-					Command []string `json:"command"`
-				} `json:"containers"`
-				Volumes []volumes `json:"volumes"`
-			} `json:"spec"`
-		} `json:"template"`
+type specs struct {
+		RestartPolicy string `json:"restartPolicy"`
+		Containers    []struct {
+			Name            string `json:"name"`
+			ImagePullPolicy string `json:"imagePullPolicy"`
+			Image           string `json:"image"`
+			WorkingDir      string `json:"workingDir"`
+			VolumeMounts    []struct {
+				MountPath string `json:"mountPath"`
+				Name      string `json:"name"`
+			} `json:"volumeMounts"`
+			Env []struct {
+				Name  string `json:"name"`
+				Value string `json:"value"`
+			} `json:"env"`
+			Ports []struct {
+				ContainerPort int `json:"containerPort"`
+			} `json:"ports"`
+			Command []string `json:"command"`
+		} `json:"containers"`
+		Volumes []struct {
+			Name     string `json:"name"`
+			HostPath struct {
+				Path string `json:"path"`
+			} `json:"hostPath"`
+		} `json:"volumes"`
 	}
-
-type volumemounts struct {
-	MountPath string `json:"mountPath"`
-	Name      string `json:"name"`
-}
-
-type env struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
-type ports struct {
-	ContainerPort int `json:"containerPort"`
-}
-
-type volumes struct {
-	Name     string `json:"name"`
-	HostPath struct {
-		Path string `json:"path"`
-	} `json:"hostPath"`
-}
 
 // OrderersStatus defines the observed state of Orderers
 // +k8s:openapi-gen=true

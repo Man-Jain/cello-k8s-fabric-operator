@@ -56,67 +56,89 @@ spec:
               type: object
             spec:
               properties:
-                replicas:
-                  format: int64
-                  type: integer
-                template:
-                  properties:
-                    metadata:
-                      properties:
-                        labels:
+                containers:
+                  items:
+                    properties:
+                      command:
+                        items:
+                          type: string
+                        type: array
+                      env:
+                        items:
                           properties:
-                            role:
+                            name:
+                              type: string
+                            value:
                               type: string
                           required:
-                          - role
+                          - name
+                          - value
                           type: object
-                        name:
-                          type: string
-                      required:
-                      - name
-                      - labels
-                      type: object
-                    spec:
-                      properties:
-                        containers:
+                        type: array
+                      image:
+                        type: string
+                      imagePullPolicy:
+                        type: string
+                      name:
+                        type: string
+                      ports:
+                        items:
                           properties:
-                            command:
-                              items:
-                                type: string
-                              type: array
-                            image:
+                            containerPort:
+                              format: int64
+                              type: integer
+                          required:
+                          - containerPort
+                          type: object
+                        type: array
+                      volumeMounts:
+                        items:
+                          properties:
+                            mountPath:
                               type: string
                             name:
                               type: string
-                            ports:
-                              items:
-                                properties:
-                                  containerPort:
-                                    format: int64
-                                    type: integer
-                                required:
-                                - containerPort
-                                type: object
-                              type: array
                           required:
+                          - mountPath
                           - name
-                          - image
-                          - ports
-                          - command
                           type: object
-                        restartPolicy:
-                          type: string
-                      required:
-                      - restartPolicy
-                      - containers
-                      type: object
-                  required:
-                  - metadata
-                  - spec
-                  type: object
+                        type: array
+                      workingDir:
+                        type: string
+                    required:
+                    - name
+                    - imagePullPolicy
+                    - image
+                    - workingDir
+                    - volumeMounts
+                    - env
+                    - ports
+                    - command
+                    type: object
+                  type: array
+                restartPolicy:
+                  type: string
+                volumes:
+                  items:
+                    properties:
+                      hostPath:
+                        properties:
+                          path:
+                            type: string
+                        required:
+                        - path
+                        type: object
+                      name:
+                        type: string
+                    required:
+                    - name
+                    - hostPath
+                    type: object
+                  type: array
               required:
-              - replicas
-              - template
+              - restartPolicy
+              - containers
+              - volumes
               type: object
           required:
           - apiVersion
