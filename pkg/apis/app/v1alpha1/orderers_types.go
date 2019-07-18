@@ -12,20 +12,19 @@ import (
 type OrderersSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata   metadata `json:"metadata"`
-	Spec specs `json:"spec"`
+	Metadata   orderers_metadata `json:"metadata"`
+	Spec orderers_specs `json:"spec"`
 }
 
-type metadata struct {
+type orderers_metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
 			App    string `json:"app"`
 			Role   string `json:"role"`
-			PeerID string `json:"peer-id"`
 		} `json:"labels"`
 	}
 
-type specs struct {
+type orderers_specs struct {
 		RestartPolicy string `json:"restartPolicy"`
 		Containers    []struct {
 			Name            string `json:"name"`

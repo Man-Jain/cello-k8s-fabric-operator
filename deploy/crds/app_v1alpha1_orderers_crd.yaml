@@ -39,14 +39,11 @@ spec:
                   properties:
                     app:
                       type: string
-                    org:
-                      type: string
                     role:
                       type: string
                   required:
                   - app
                   - role
-                  - org
                   type: object
                 name:
                   type: string

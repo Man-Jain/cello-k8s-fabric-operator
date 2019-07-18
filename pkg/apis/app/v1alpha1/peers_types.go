@@ -12,21 +12,22 @@ import (
 type PeersSpec struct {
 	APIVersion string `json:"apiVersion"`
 	Kind       string `json:"kind"`
-	Metadata   metadata `json:"metadata"`
-	Spec specs `json:"spec"`
+	Metadata   peers_metadata `json:"metadata"`
+	Replicas string `json:"replicas"`
+	Spec peers_specs `json:"spec"`
 }
 
-type metadata struct {
+type peers_metadata struct {
 		Name   string `json:"name"`
 		Labels struct {
 			App    string `json:"app"`
 			Role   string `json:"role"`
-			PeerID string `json:"peer-id"`
+			PeerId string `json:"peerId"`
 			Org    string `json:"org"`
 		} `json:"labels"`
 	}
 
-type specs struct {
+type peers_specs struct {
 		RestartPolicy string `json:"restartPolicy"`
 		Containers    []struct {
 			Name            string `json:"name"`

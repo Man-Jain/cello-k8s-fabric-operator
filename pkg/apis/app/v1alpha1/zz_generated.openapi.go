@@ -11,15 +11,15 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAs":            schema_pkg_apis_app_v1alpha1_CAs(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec":        schema_pkg_apis_app_v1alpha1_CAsSpec(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus":      schema_pkg_apis_app_v1alpha1_CAsStatus(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.Orderers":       schema_pkg_apis_app_v1alpha1_Orderers(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec":   schema_pkg_apis_app_v1alpha1_OrderersSpec(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus": schema_pkg_apis_app_v1alpha1_OrderersStatus(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.Peers":          schema_pkg_apis_app_v1alpha1_Peers(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec":      schema_pkg_apis_app_v1alpha1_PeersSpec(ref),
-		"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus":    schema_pkg_apis_app_v1alpha1_PeersStatus(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAs":            schema_pkg_apis_app_v1alpha1_CAs(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec":        schema_pkg_apis_app_v1alpha1_CAsSpec(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus":      schema_pkg_apis_app_v1alpha1_CAsStatus(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Orderers":       schema_pkg_apis_app_v1alpha1_Orderers(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec":   schema_pkg_apis_app_v1alpha1_OrderersSpec(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus": schema_pkg_apis_app_v1alpha1_OrderersStatus(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Peers":          schema_pkg_apis_app_v1alpha1_Peers(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec":      schema_pkg_apis_app_v1alpha1_PeersSpec(ref),
+		"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus":    schema_pkg_apis_app_v1alpha1_PeersStatus(ref),
 	}
 }
 
@@ -50,19 +50,19 @@ func schema_pkg_apis_app_v1alpha1_CAs(ref common.ReferenceCallback) common.OpenA
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsSpec", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAsStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -86,12 +86,12 @@ func schema_pkg_apis_app_v1alpha1_CAsSpec(ref common.ReferenceCallback) common.O
 					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"),
 						},
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Specs"),
 						},
 					},
 				},
@@ -99,7 +99,7 @@ func schema_pkg_apis_app_v1alpha1_CAsSpec(ref common.ReferenceCallback) common.O
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.spec"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Specs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"},
 	}
 }
 
@@ -158,19 +158,19 @@ func schema_pkg_apis_app_v1alpha1_Orderers(ref common.ReferenceCallback) common.
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersSpec", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -194,12 +194,12 @@ func schema_pkg_apis_app_v1alpha1_OrderersSpec(ref common.ReferenceCallback) com
 					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.orderers_metadata"),
 						},
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrdererSpecs"),
 						},
 					},
 				},
@@ -207,7 +207,7 @@ func schema_pkg_apis_app_v1alpha1_OrderersSpec(ref common.ReferenceCallback) com
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrdererSpecs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.orderers_metadata"},
 	}
 }
 
@@ -266,19 +266,19 @@ func schema_pkg_apis_app_v1alpha1_Peers(ref common.ReferenceCallback) common.Ope
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersSpec", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -302,20 +302,26 @@ func schema_pkg_apis_app_v1alpha1_PeersSpec(ref common.ReferenceCallback) common
 					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.peers_metadata"),
+						},
+					},
+					"replicas": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeerSpecs"),
 						},
 					},
 				},
-				Required: []string{"apiVersion", "kind", "metadata", "spec"},
+				Required: []string{"apiVersion", "kind", "metadata", "replicas", "spec"},
 			},
 		},
 		Dependencies: []string{
-			"cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata", "cello/k8s-fabric-operator/pkg/apis/app/v1alpha1.specs"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeerSpecs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.peers_metadata"},
 	}
 }
 
