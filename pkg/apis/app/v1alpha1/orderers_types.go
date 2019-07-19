@@ -10,47 +10,55 @@ import (
 // OrderersSpec defines the desired state of Orderers
 // +k8s:openapi-gen=true
 type OrderersSpec struct {
-	APIVersion string `json:"apiVersion"`
-	Kind       string `json:"kind"`
-	Metadata   orderers_metadata `json:"metadata"`
-	Spec orderers_specs `json:"spec"`
+	Metadata   *OrderersMetadata `json:"metadata"`
+	RestartPolicy string `json:"restartPolicy"`
+	Containers    []*OrderersContainers `json:"containers"`
+	Volumes []*OrderersVolumes `json:"volumes"`
 }
 
-type orderers_metadata struct {
-		Name   string `json:"name"`
-		Labels struct {
-			App    string `json:"app"`
-			Role   string `json:"role"`
-		} `json:"labels"`
-	}
+type OrderersMetadata struct {
+	Name   string `json:"name"`
+	Labels *OrderersLabels `json:"labels"`
+}
 
-type orderers_specs struct {
-		RestartPolicy string `json:"restartPolicy"`
-		Containers    []struct {
-			Name            string `json:"name"`
-			ImagePullPolicy string `json:"imagePullPolicy"`
-			Image           string `json:"image"`
-			WorkingDir      string `json:"workingDir"`
-			VolumeMounts    []struct {
-				MountPath string `json:"mountPath"`
-				Name      string `json:"name"`
-			} `json:"volumeMounts"`
-			Env []struct {
-				Name  string `json:"name"`
-				Value string `json:"value"`
-			} `json:"env"`
-			Ports []struct {
-				ContainerPort int `json:"containerPort"`
-			} `json:"ports"`
-			Command []string `json:"command"`
-		} `json:"containers"`
-		Volumes []struct {
-			Name     string `json:"name"`
-			HostPath struct {
-				Path string `json:"path"`
-			} `json:"hostPath"`
-		} `json:"volumes"`
-	}
+type OrderersLabels struct {
+	App    string `json:"app"`
+	Role   string `json:"role"`
+}
+
+type OrderersContainers struct {
+	Name            string `json:"name"`
+	ImagePullPolicy string `json:"imagePullPolicy"`
+	Image           string `json:"image"`
+	WorkingDir      string `json:"workingDir"`
+	VolumeMounts    []*OrderersVolumeMounts `json:"volumeMounts"`
+	Env []*OrderersEnv `json:"env"`
+	Ports []*OrderersPorts `json:"ports"`
+	Command []string `json:"command"`
+}
+
+type OrderersVolumeMounts struct {
+	MountPath string `json:"mountPath"`
+	Name      string `json:"name"`
+}
+
+type OrderersEnv struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type OrderersPorts struct {
+	ContainerPort int `json:"containerPort"`
+}
+
+type OrderersVolumes struct {
+	Name     string `json:"name"`
+	HostPath *OrderersHostpath `json:"hostPath"`
+}
+
+type OrderersHostpath struct {
+	Path string `json:"path"`
+}
 
 // OrderersStatus defines the observed state of Orderers
 // +k8s:openapi-gen=true

@@ -25,7 +25,7 @@ var log = logf.Log.WithName("controller_peers")
 /**
 * USER ACTION REQUIRED: This is a scaffold file intended for the user to modify with their own Controller
 * business logic.  Delete these comments after modifying this file.*
- */
+*/
 
 // Add creates a new Peers Controller and adds it to the Manager. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
@@ -101,73 +101,37 @@ func (r *ReconcilePeers) Reconcile(request reconcile.Request) (reconcile.Result,
 		return reconcile.Result{}, err
 	}
 
-	lbls := labels.Set{
-		"app":     instance.Metadata.Labels.App,
-		"role":     instance.Metadata.Labels.Role,
-		"peerId":     instance.Metadata.Labels.PeerId,
-		"org":     instance.Metadata.Labels.Org,
+	// Define a new Pod object
+	pod := newPodForCR(instance)
+
+	// Set Peers instance as the owner and controller
+	if err := controllerutil.SetControllerReference(instance, pod, r.scheme); err != nil {
+		return reconcile.Result{}, err
 	}
-	existingPeers := &corev1.Peers{}
-	err = r.client.List(context.TODO(),
-		&client.ListOptions{
-			Namespace:     request.Namespace,
-			LabelSelector: labels.SelectorFromSet(lbls),
-		},
-		existingPeers)
-	if err != nil {
-		reqLogger.Error(err, "failed to list existing pods in the Peers")
+	// Check if this Pod already exists
+	found := &corev1.Pod{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{Name: pod.Name, Namespace: pod.Namespace}, found)
+	if err != nil && errors.IsNotFound(err) {
+		reqLogger.Info("Creating a new Pod", "Pod.Namespace", pod.Namespace, "Pod.Name", pod.Name)
+		err = r.client.Create(context.TODO(), pod)
+		if err != nil {
+			return reconcile.Result{}, err
+		}
+		// Pod created successfully - don't requeue
+		return reconcile.Result{}, nil
+	} else if err != nil {
 		return reconcile.Result{}, err
 	}
 
-	existingPeersName := []string{}
-
-	for _, peer := range existingPeers.Items {
-		if peer.GetObjectMeta().GetDeletionTimestamp() != nil {
-			continue
-		}
-		if peer.Status.Phase == corev1.PodPending || peer.Status.Phase == corev1.PodRunning {
-			existingPeersNames = append(existingPeersNames, peer.GetObjectMeta().GetName())
-		}
-	}
-
-	reqLogger.Info("Checking podset", "expected replicas", instance.Spec.Replicas, "Pod.Names", existingPeersNames)
-
-	if int32(len(existingPeersNames)) > instance.Spec.Replicas {
-		// delete a pod. Just one at a time (this reconciler will be called again afterwards)
-		reqLogger.Info("Deleting a pod in the podset", "expected replicas", instance.Spec.Replicas, "Pod.Names", existingPeersNames)
-		peer := existingPeers.Items[0]
-		err = r.client.Delete(context.TODO(), &peer)
-		if err != nil {
-			reqLogger.Error(err, "failed to delete a pod")
-			return reconcile.Result{}, err
-		}
-	}
-
-	// Scale Up Pods
-	if int32(len(existingPeersNames)) < instance.Spec.Replicas {
-		// create a new pod. Just one at a time (this reconciler will be called again afterwards)
-		reqLogger.Info("Adding a pod in the podset", "expected replicas", instance.Spec.Replicas, "Pod.Names", existingPeersNames)
-		pod := newPodForCR(instance)
-		if err := controllerutil.SetControllerReference(instance, pod, r.scheme); err != nil {
-			reqLogger.Error(err, "unable to set owner reference on new pod")
-			return reconcile.Result{}, err
-		}
-		err = r.client.Create(context.TODO(), pod)
-		if err != nil {
-			reqLogger.Error(err, "failed to create a pod")
-			return reconcile.Result{}, err
-		}
-	}
-	return reconcile.Result{Requeue: true}, nil
+	// Pod already exists - don't requeue
+	reqLogger.Info("Skip reconcile: Pod already exists", "Pod.Namespace", found.Namespace, "Pod.Name", found.Name)
+	return reconcile.Result{}, nil
 }
 
 // newPodForCR returns a busybox pod with the same name/namespace as the cr
 func newPodForCR(cr *appv1alpha1.Peers) *corev1.Pod {
 	labels := map[string]string{
-		"app":     cr.Metadata.Labels.App,
-		"role":     cr.Metadata.Labels.Role,
-		"peerId":     cr.Metadata.Labels.PeerId,
-		"org":     cr.Metadata.Labels.Org,
+		"app": cr.Name,
 
 	}
 	return &corev1.Pod{

@@ -10,50 +10,57 @@ import (
 // PeersSpec defines the desired state of Peers
 // +k8s:openapi-gen=true
 type PeersSpec struct {
-	APIVersion string `json:"apiVersion"`
-	Kind       string `json:"kind"`
-	Metadata   peers_metadata `json:"metadata"`
-	Replicas string `json:"replicas"`
-	Spec peers_specs `json:"spec"`
+	Metadata   *PeersMetadata `json:"metadata"`
+	RestartPolicy string `json:"restartPolicy"`
+	Containers    []*PeersContainers `json:"containers"`
+	Volumes []*PeersVolumes `json:"volumes"`
 }
 
-type peers_metadata struct {
-		Name   string `json:"name"`
-		Labels struct {
-			App    string `json:"app"`
-			Role   string `json:"role"`
-			PeerId string `json:"peerId"`
-			Org    string `json:"org"`
-		} `json:"labels"`
-	}
+type PeersMetadata struct {
+	Name   string `json:"name"`
+	Labels *PeersLabels `json:"labels"`
+}
 
-type peers_specs struct {
-		RestartPolicy string `json:"restartPolicy"`
-		Containers    []struct {
-			Name            string `json:"name"`
-			ImagePullPolicy string `json:"imagePullPolicy"`
-			Image           string `json:"image"`
-			WorkingDir      string `json:"workingDir"`
-			VolumeMounts    []struct {
-				MountPath string `json:"mountPath"`
-				Name      string `json:"name"`
-			} `json:"volumeMounts"`
-			Env []struct {
-				Name  string `json:"name"`
-				Value string `json:"value"`
-			} `json:"env"`
-			Ports []struct {
-				ContainerPort int `json:"containerPort"`
-			} `json:"ports"`
-			Command []string `json:"command"`
-		} `json:"containers"`
-		Volumes []struct {
-			Name     string `json:"name"`
-			HostPath struct {
-				Path string `json:"path"`
-			} `json:"hostPath"`
-		} `json:"volumes"`
-	}
+type PeersLabels struct {
+	App    string `json:"app"`
+	Role   string `json:"role"`
+	PeerId string `json:"peerId"`
+	Org    string `json:"org"`
+}
+
+type PeersContainers struct {
+	Name            string `json:"name"`
+	ImagePullPolicy string `json:"imagePullPolicy"`
+	Image           string `json:"image"`
+	WorkingDir      string `json:"workingDir"`
+	VolumeMounts    []*PeersVolumeMounts `json:"volumeMounts"`
+	Env []*PeersEnv `json:"env"`
+	Ports []*PeersPorts `json:"ports"`
+	Command []string `json:"command"`
+}
+
+type PeersVolumeMounts struct {
+	MountPath string `json:"mountPath"`
+	Name      string `json:"name"`
+}
+
+type PeersEnv struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type PeersPorts struct {
+	ContainerPort int `json:"containerPort"`
+}
+
+type PeersVolumes struct {
+	Name     string `json:"name"`
+	HostPath *PeersHostpath `json:"hostPath"`
+}
+
+type PeersHostpath struct {
+	Path string `json:"path"`
+}
 
 // PeersStatus defines the observed state of Peers
 // +k8s:openapi-gen=true

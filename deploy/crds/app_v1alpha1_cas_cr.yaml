@@ -1,7 +1,21 @@
 apiVersion: app.example.com/v1alpha1
 kind: CAs
 metadata:
-  name: example-cas
+  name: hyperledger-fabric-ca
+  labels:
+    app: hyperledger
+    role: ca
+replicas: 1
 spec:
-  # Add fields here
-  size: 3
+  restartPolicy: Always
+  containers:
+    - name: ca-container
+      imagePullPolicy: Never
+      image: hyperledger/fabric-ca:x86_64-1.0.0
+      ports:
+        - containerPort: 7054
+      command:
+        - fabric-ca-server
+        - start
+        - -b
+        - admin:adminpw

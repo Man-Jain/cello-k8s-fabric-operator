@@ -10,44 +10,31 @@ import (
 // CAsSpec defines the desired state of CAs
 // +k8s:openapi-gen=true
 type CAsSpec struct {
-	APIVersion string `json:"apiVersion"`
-	Kind       string `json:"kind"`
-	Metadata metadata `json:"metadata"`
-	Spec spec `json:"spec"`
+	Metadata *CAMetadata `json:"metadata"`
+	Replicas int `json:"replicas"`
+	RestartPolicy string `json:"restartPolicy"`
+	Containers []*CAContainers `json:"containers"`
 }
 
-type metadata struct {
-		Name   string `json:"name"`
-		Labels struct {
-			App    string `json:"app"`
-			Role   string `json:"role"`
-			PeerID string `json:"peer-id"`
-			Org    string `json:"org"`
-		} `json:"labels"`
+type CAMetadata struct {
+	Name   string `json:"name"`
+	Labels *CASLabels `json:"labels"`
 }
 
-type spec struct {
-		Replicas int `json:"replicas"`
-		Template struct {
-			Metadata struct {
-				Name   string `json:"name"`
-				Labels struct {
-					Role string `json:"role"`
-				} `json:"labels"`
-			} `json:"metadata"`
-			Spec struct {
-				RestartPolicy string `json:"restartPolicy"`
-				Containers []struct {
-					Name  string `json:"name"`
-					Image string `json:"image"`
-					Ports []ports `json:"ports"`
-					Command []string `json:"command"`
-				} `json:"containers"`
-			} `json:"spec"`
-		} `json:"template"`
-	}
+type CASLabels struct {
+	App    string `json:"app"`
+	Role   string `json:"role"`
+}
 
-type ports struct {
+type CAContainers struct {
+	Name  string `json:"name"`
+	Image string `json:"image"`
+	ImagePullPolicy string `json:"imagePullPolicy"`
+	Ports []*CAPorts `json:"ports"`
+	Command []string `json:"command"`
+}
+
+type CAPorts struct {
 	ContainerPort int `json:"containerPort"`
 }
 

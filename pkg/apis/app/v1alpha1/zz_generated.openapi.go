@@ -72,34 +72,41 @@ func schema_pkg_apis_app_v1alpha1_CAsSpec(ref common.ReferenceCallback) common.O
 			SchemaProps: spec.SchemaProps{
 				Description: "CAsSpec defines the desired state of CAs",
 				Properties: map[string]spec.Schema{
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAMetadata"),
 						},
 					},
-					"spec": {
+					"replicas": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Specs"),
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+					"restartPolicy": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"containers": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAContainers"),
+									},
+								},
+							},
 						},
 					},
 				},
-				Required: []string{"apiVersion", "kind", "metadata", "spec"},
+				Required: []string{"metadata", "replicas", "restartPolicy", "containers"},
 			},
 		},
 		Dependencies: []string{
-			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.Specs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.metadata"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAContainers", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.CAMetadata"},
 	}
 }
 
@@ -180,34 +187,47 @@ func schema_pkg_apis_app_v1alpha1_OrderersSpec(ref common.ReferenceCallback) com
 			SchemaProps: spec.SchemaProps{
 				Description: "OrderersSpec defines the desired state of Orderers",
 				Properties: map[string]spec.Schema{
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.orderers_metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersMetadata"),
 						},
 					},
-					"spec": {
+					"restartPolicy": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrdererSpecs"),
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"containers": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersContainers"),
+									},
+								},
+							},
+						},
+					},
+					"volumes": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersVolumes"),
+									},
+								},
+							},
 						},
 					},
 				},
-				Required: []string{"apiVersion", "kind", "metadata", "spec"},
+				Required: []string{"metadata", "restartPolicy", "containers", "volumes"},
 			},
 		},
 		Dependencies: []string{
-			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrdererSpecs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.orderers_metadata"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersContainers", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersMetadata", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.OrderersVolumes"},
 	}
 }
 
@@ -288,40 +308,47 @@ func schema_pkg_apis_app_v1alpha1_PeersSpec(ref common.ReferenceCallback) common
 			SchemaProps: spec.SchemaProps{
 				Description: "PeersSpec defines the desired state of Peers",
 				Properties: map[string]spec.Schema{
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.peers_metadata"),
+							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersMetadata"),
 						},
 					},
-					"replicas": {
+					"restartPolicy": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
 						},
 					},
-					"spec": {
+					"containers": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeerSpecs"),
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersContainers"),
+									},
+								},
+							},
+						},
+					},
+					"volumes": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersVolumes"),
+									},
+								},
+							},
 						},
 					},
 				},
-				Required: []string{"apiVersion", "kind", "metadata", "replicas", "spec"},
+				Required: []string{"metadata", "restartPolicy", "containers", "volumes"},
 			},
 		},
 		Dependencies: []string{
-			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeerSpecs", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.peers_metadata"},
+			"cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersContainers", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersMetadata", "cello/cello-k8s-fabric-operator/pkg/apis/app/v1alpha1.PeersVolumes"},
 	}
 }
 

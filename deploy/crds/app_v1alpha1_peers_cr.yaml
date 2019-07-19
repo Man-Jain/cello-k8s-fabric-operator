@@ -1,7 +1,51 @@
 apiVersion: app.example.com/v1alpha1
 kind: Peers
 metadata:
-  name: example-peers
+  name: envar-demo
 spec:
-  # Add fields here
-  size: 3
+  metadata:
+    name: hyperledger-peer
+    labels:
+      app: hyperledger
+      role: peer
+      peerId: "1"
+      org: "1"
+  replicas: 2
+  restartPolicy: Always
+  containers:
+    - name: envar-demo-container
+      imagePullPolicy: IfNotPresent
+      image: hyperledger/fabric-peer:x86_64-1.0.0
+      workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      volumeMounts:
+        - mountPath: /etc/hyperledger/fabric/msp
+          name: fabric-vol-msp
+        - mountPath: /etc/hyperledger/fabric/tls
+          name: fabric-vol-tls
+        - mountPath: /host/var/run/docker.sock
+          name: docker-sock
+      env:
+        - name: CORE_VM_ENDPOINT
+          value: unix:///host/var/run/docker.sock
+        - name: CORE_PEER_ID
+          value: "peer0-org1"
+        - name: CORE_PEER_ADDRESS
+          value: "peer0-org1:7051"
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: "/etc/hyperledger/fabric/tls/ca.crt"
+      ports:
+        - containerPort: 7051
+        - containerPort: 7052
+        - containerPort: 7053
+        - containerPort: 8000
+      command:
+        - peer
+        - node
+        - start
+  volumes:
+    - name: fabric-vol-msp
+      hostPath:
+        path: /data/driving-files/fabric-peer/peer0-org1/msp
+    - name: fabric-vol-tls
+      hostPath:
+        path: /data/driving-files/fabric-peer/peer0-org1/tls

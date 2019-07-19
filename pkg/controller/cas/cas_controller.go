@@ -25,7 +25,7 @@ var log = logf.Log.WithName("controller_cas")
 /**
 * USER ACTION REQUIRED: This is a scaffold file intended for the user to modify with their own Controller
 * business logic.  Delete these comments after modifying this file.*
- */
+*/
 
 // Add creates a new CAs Controller and adds it to the Manager. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
